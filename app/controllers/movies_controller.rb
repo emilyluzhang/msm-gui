@@ -14,4 +14,27 @@ class MoviesController < ApplicationController
 
     render({ :template => "movie_templates/show" })
   end
+
+  def create 
+    # Retrieve useres inputs from params 
+    # "the_title"=>"1", "the_year"=>"2", "the_duration"=>"3", "the_description"=>"4", "the_image"=>"5", "the_director_id"=>"6"
+
+    m = Movie.new 
+    m.title = params.fetch("the_title")
+    m.year = params.fetch("the_year")
+    m.duration = params.fetch("the_duration")
+    m.description = params.fetch("the_description")
+    m.title = params.fetch("the_image")
+    m.director_id = params.fetch("the_director_id")
+
+    m.save
+
+    redirect_to("/movies")
+
+    # Create a record in the movie table 
+    # Populate each column with the user input 
+    # Save 
+
+    # Redirected user back to the /movies URL
+  end 
 end
