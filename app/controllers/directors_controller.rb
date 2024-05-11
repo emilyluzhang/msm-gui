@@ -3,23 +3,34 @@ class DirectorsController < ApplicationController
     # Retrieve useres inputs from params 
     # "the_title"=>"1", "the_year"=>"2", "the_duration"=>"3", "the_description"=>"4", "the_image"=>"5", "the_director_id"=>"6"
 
-    m = Movie.new 
-    m.title = params.fetch("the_title")
-    m.year = params.fetch("the_year")
-    m.duration = params.fetch("the_duration")
-    m.description = params.fetch("the_description")
-    m.title = params.fetch("the_image")
-    m.director_id = params.fetch("the_director_id")
+    d = Director.new 
+    d.name = params.fetch("the_name")
+    d.dob = params.fetch("the_dob")
+    d.bio = params.fetch("the_bio")
+    d.image = params.fetch("the_image")
 
-    m.save
+    d.save
 
-    redirect_to("/movies")
+    redirect_to("/directors")
 
     # Create a record in the movie table 
     # Populate each column with the user input 
     # Save 
 
     # Redirected user back to the /movies URL
+  end 
+  def update 
+    d_id = params.fetch("the_id")
+    matching_records = Director.where({:id => d_id})
+    @the_director = matching_records.at(0)
+    @the_director.name = params.fetch("the_name")
+    @the_director.dob = params.fetch("the_dob")
+    @the_director.bio = params.fetch("the_bio")
+    @the_director.image = params.fetch("the_image")
+
+    @the_director.save
+
+    redirect_to("/directors/#{d_id}")
   end 
   def index
     matching_directors = Director.all
@@ -58,4 +69,16 @@ class DirectorsController < ApplicationController
 
     render({ :template => "director_templates/eldest" })
   end
+  def destroy 
+    the_id = params.fetch("an_id")
+
+    matching_records = Director.where({:id => the_id})
+
+    the_director = matching_records.at(0)
+
+    the_director.destroy
+    redirect_to("/directors")
+
+
+  end 
 end
